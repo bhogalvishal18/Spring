@@ -58,7 +58,21 @@ public class SpringRestAPIServiceImpl implements SpringRestAPIService,SpringRest
 	@Override
 	public String signIn(SignUpModel signInModel) {
 		// TODO Auto-generated method stub
-		return null;
+		String result = "FAILURE";
+		try {
+			if (springrestdao.findById(signInModel.getUserId()).isPresent()) {
+				UserAuthEntity userEntity = springrestdao.findById(signInModel.getUserId()).get();
+				if (userEntity.getPassword().equals(signInModel.getPassword())) {
+					result = "SUCCESS";
+				}
+				LOGGER.info("User present" + userEntity);
+			}
+
+		} catch (Exception e) {
+			LOGGER.info(e.toString());
+		}
+		return result;
+	
 	}
 
 }
